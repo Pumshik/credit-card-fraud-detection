@@ -1,0 +1,16 @@
+data/
+
+app/best_model.pkl
+app/scaler_amount.pkl
+app/scaler_time.pkl
+
+venv/
+
+__pycache__/
+*.pyc
+*.pyo
+
+.ipynb_checkpoints/
+
+.DS_Store
+Thumbs.db
