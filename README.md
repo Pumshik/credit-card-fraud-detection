@@ -14,7 +14,7 @@
 ## Задача и метрики
 
 Бинарная классификация с экстремальным дисбалансом классов.  
-Основная метрика оптимизации - Recall (полнота обнаружения мошенничества).  
+Основная метрика оптимизации - Recall.  
 Дополнительно отслеживались Precision, F1, AUC-ROC и AUC-PRC.
 
 ## Структура репозитория
@@ -39,17 +39,6 @@ app/
     requirements.txt
     
         Зависимости для запуска сервиса.
-        
-    best_model.pkl
-    
-        Сериализованная модель (генерируется ноутбуком 2).
-    scaler_amount.pkl
-    
-        StandardScaler для признака Amount.
-        
-    scaler_time.pkl
-    
-        StandardScaler для признака Time.
 
 .gitignore
 
@@ -93,15 +82,15 @@ curl -X POST "http://127.0.0.1:8000/predict" \
 ## Результаты моделирования
 ```
 Модель                              Recall  Precision  AUPRC
-LogisticRegression (baseline)       0.00    0.00       0.17
-LogisticRegression + class_weight   0.61    0.75       0.74
-RandomForest + class_weight         0.75    0.89       0.86
-XGBoost + scale_pos_weight          0.78    0.90       0.88
-LightGBM + is_unbalance             0.76    0.88       0.87
-XGBoost (RandomizedSearchCV)        0.84    0.83       0.90
+LogisticRegression (baseline)       0.83    0.64       0.74
+LogisticRegression + class_weight   0.06    0.92       0.72
+RandomForest + class_weight         0.96    0.76       0.87
+XGBoost + scale_pos_weight          0.76    0.84       0.87
+LightGBM + is_unbalance             0.04    0.88       0.05
+XGBoost (RandomizedSearchCV)        0.14    0.87       0.70
 ```
 
-Лучшая модель – XGBoost после подбора гиперпараметров – обнаруживает 84% мошеннических транзакций при точности 83% (AUPRC 0.90). Интерпретация SHAP показала, что наибольший вклад в предсказание вносят признаки V14, V4, V12.
+Лучшая модель - XGBoost после подбора гиперпараметров, она обнаруживает 87% мошеннических транзакций при точности 14% (AUPRC 0.70). Интерпретация SHAP показала, что наибольший вклад в предсказание вносят признаки V14, V4, V12.
 
 ## Используемые технологии
 
@@ -113,4 +102,3 @@ Python 3.12, Pandas, NumPy, Scikit-learn, XGBoost, LightGBM, Imbalanced-learn (S
 - Построить ансамбль моделей с динамическим порогом для повышения Recall.
 - Реализовать пайплайн предобработки в API через sklearn Pipeline.
 - Упаковать в Docker и развернуть на облачном сервере.
-- Внедрить мониторинг дрейфа признаков в реальном времени.
