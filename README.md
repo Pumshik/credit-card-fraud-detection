@@ -157,12 +157,13 @@ curl -X POST "http://localhost:8001/predict" \
 ## Результаты моделирования
 ```
 Модель                              Recall  Precision  AUPRC
-LogisticRegression (baseline)       0.83    0.64       0.74
-LogisticRegression + class_weight   0.06    0.92       0.72
-RandomForest + class_weight         0.96    0.76       0.87
-XGBoost + scale_pos_weight          0.76    0.84       0.87
-LightGBM + is_unbalance             0.04    0.88       0.05
-XGBoost (RandomizedSearchCV)        0.14    0.87       0.70
+LogReg Baseline                     0.6429  0.8289     0.7439
+LogReg Balanced                     0.9184  0.0609     0.7189
+LogReg + SMOTE                      0.9184  0.0581     0.7249
+RandomForest Balanced               0.7551  0.9610     0.8653
+XGBoost                             0.8367  0.7810     0.8631
+LightGBM                            0.8776  0.0446     0.0536
+XGBoost Tuned                       0.8673  0.1332     0.6960
 ```
 
 Лучшая модель - XGBoost после подбора гиперпараметров, она обнаруживает 87% мошеннических транзакций при точности 14% (AUPRC 0.70). Интерпретация SHAP показала, что наибольший вклад в предсказание вносят признаки V14, V4, V12.
